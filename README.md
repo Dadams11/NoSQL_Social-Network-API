@@ -5,3 +5,13 @@ A user can use this API to create new users with a valid username and email, add
 
 Installation
 To run this code, simply clone the code, open the cloned code in your favorite IDE, run npm install to install dependencies and then run npm start to start the server.
+
+Usage
+To run this application, run: npm start to use on a local server 3001 after cloning the repository and installing the necessary dependencies.
+
+Built With
+JavaScript
+Node JS
+NoSQL - MongoDB
+Mongoose
+Express
