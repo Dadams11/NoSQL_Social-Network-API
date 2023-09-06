@@ -15,3 +15,15 @@ Node JS
 NoSQL - MongoDB
 Mongoose
 Express
+
+Links to watch example : https://www.loom.com/share/2613799cea3b4ace8e7d404fd05e1b37?sid=b5a75dca-c418-4aa7-9db7-d2247cf06285
+
+https://www.loom.com/share/0ed07556ba0f455aafa4734edf297766?sid=686ef753-342f-4df6-8a65-1b68fc24dddd
+
+https://www.loom.com/share/bad071c8cd8c4deaab29c1a755b26de3?sid=ec4e857b-37f8-4430-8236-90cb2c50b55e
+
+https://www.loom.com/share/6be04450f9d94fbdbe5efadc304aceb5?sid=7962c9e9-ba1a-452b-a3ef-2bb71c19d9fd
+
+https://www.loom.com/share/78a6f061156e4dcbac09b679eb407d2c?sid=12568ed6-fafb-42c9-959a-3c4e19819571
+
+

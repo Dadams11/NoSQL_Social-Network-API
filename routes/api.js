@@ -4,118 +4,98 @@ const Thought = require('../models/Thought');
 
 const router = express.Router();
 
-// User routes
-router.get('/users', async (req, res) => {
-  try {
-    const users = await User.find({}).populate('thoughts friends');
-    res.json(users);
-  } catch (error) {
-    res.status(500).json({ message: 'Unable to get users' });
-  }
-});
+// User Routes
 
-router.get('/users/:id', async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id).populate('thoughts friends');
-    res.json(user);
-  } catch (error) {
-    res.status(500).json({ message: 'Unable to get the user' });
-  }
-});
-
+// POST: Create a new User
 router.post('/users', async (req, res) => {
   try {
     const newUser = new User(req.body);
     await newUser.save();
-    res.json(newUser);
-  } catch (error) {
-    res.status(500).json({ message: 'Unable to create user' });
+    res.status(201).json(newUser);
+  } catch (err) {
+    if (err.code === 11000) {
+      res.status(400).json({ message: 'Email already exists' });
+    } else {
+      console.log("Error:", err);
+      res.status(500).json(err);
+    }
   }
 });
 
-router.put('/users/:id', async (req, res) => {
+// GET: Retrieve all Users
+router.get('/users', async (req, res) => {
   try {
-    const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    res.json(user);
-  } catch (error) {
-    res.status(500).json({ message: 'Unable to update user' });
+    const users = await User.find({});
+    res.status(200).json(users);
+  } catch (err) {
+    res.status(500).json(err);
   }
 });
 
+// DELETE: Remove a User by ID
 router.delete('/users/:id', async (req, res) => {
   try {
-    const user = await User.findByIdAndDelete(req.params.id);
-    res.json(user);
-  } catch (error) {
-    res.status(500).json({ message: 'Unable to delete user' });
+    const deletedUser = await User.findByIdAndDelete(req.params.id);
+    if (!deletedUser) return res.status(404).json({ message: 'User not found' });
+    res.status(200).json({ message: 'User deleted' });
+  } catch (err) {
+    res.status(500).json(err);
   }
 });
 
-router.post('/users/:userId/friends/:friendId', async (req, res) => {
-  try {
-    const user = await User.findByIdAndUpdate(req.params.userId, { $push: { friends: req.params.friendId } }, { new: true });
-    res.json(user);
-  } catch (error) {
-    res.status(500).json({ message: 'Unable to add friend' });
-  }
-});
+// Thought Routes
 
-router.delete('/users/:userId/friends/:friendId', async (req, res) => {
-  try {
-    const user = await User.findByIdAndUpdate(req.params.userId, { $pull: { friends: req.params.friendId } }, { new: true });
-    res.json(user);
-  } catch (error) {
-    res.status(500).json({ message: 'Unable to remove friend' });
-  }
-});
-
-// Thought routes
-router.get('/thoughts', async (req, res) => {
-  try {
-    const thoughts = await Thought.find({});
-    res.json(thoughts);
-  } catch (error) {
-    res.status(500).json({ message: 'Unable to get thoughts' });
-  }
-});
-
-router.get('/thoughts/:id', async (req, res) => {
-  try {
-    const thought = await Thought.findById(req.params.id);
-    res.json(thought);
-  } catch (error) {
-    res.status(500).json({ message: 'Unable to get the thought' });
-  }
-});
-
+// POST: Create a new Thought
 router.post('/thoughts', async (req, res) => {
   try {
     const newThought = new Thought(req.body);
     await newThought.save();
-
-    await User.findByIdAndUpdate(req.body.userId, { $push: { thoughts: newThought._id } }, { new: true });
-    
-    res.json(newThought);
-  } catch (error) {
-    res.status(500).json({ message: 'Unable to create thought' });
+    res.status(201).json(newThought);
+  } catch (err) {
+    res.status(500).json(err);
   }
 });
 
+// GET: Retrieve all Thoughts
+router.get('/thoughts', async (req, res) => {
+  try {
+    const thoughts = await Thought.find({});
+    res.status(200).json(thoughts);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+// GET: Retrieve a single Thought by ID
+router.get('/thoughts/:id', async (req, res) => {
+  try {
+    const thought = await Thought.findById(req.params.id);
+    if (!thought) return res.status(404).json({ message: 'Thought not found' });
+    res.status(200).json(thought);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+// PUT: Update a Thought by ID
 router.put('/thoughts/:id', async (req, res) => {
   try {
-    const thought = await Thought.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    res.json(thought);
-  } catch (error) {
-    res.status(500).json({ message: 'Unable to update thought' });
+    const updatedThought = await Thought.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!updatedThought) return res.status(404).json({ message: 'Thought not found' });
+    res.status(200).json(updatedThought);
+  } catch (err) {
+    res.status(500).json(err);
   }
 });
 
+// DELETE: Remove a Thought by ID
 router.delete('/thoughts/:id', async (req, res) => {
   try {
-    const thought = await Thought.findByIdAndDelete(req.params.id);
-    res.json(thought);
-  } catch (error) {
-    res.status(500).json({ message: 'Unable to delete thought' });
+    const deletedThought = await Thought.findByIdAndDelete(req.params.id);
+    if (!deletedThought) return res.status(404).json({ message: 'Thought not found' });
+    res.status(200).json({ message: 'Thought deleted' });
+  } catch (err) {
+    res.status(500).json(err);
   }
 });
 

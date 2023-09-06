@@ -18,7 +18,7 @@ const ReactionSchema = new Schema({
   createdAt: {
     type: Date,
     default: Date.now,
-    get: (timestamp) => new Date(timestamp).toLocaleString()  // Using JavaScript's native Date object for formatting
+    get: (timestamp) => new Date(timestamp).toLocaleString()
   }
 });
 
@@ -32,7 +32,7 @@ const ThoughtSchema = new Schema({
   createdAt: {
     type: Date,
     default: Date.now,
-    get: (timestamp) => new Date(timestamp).toLocaleString()  // Using JavaScript's native Date object for formatting
+    get: (timestamp) => new Date(timestamp).toLocaleString()
   },
   username: {
     type: String,
@@ -41,7 +41,7 @@ const ThoughtSchema = new Schema({
   reactions: [ReactionSchema]
 },
 {
-  toJSON: { getters: true } 
+  toJSON: { getters: true }
 });
 
 ThoughtSchema.virtual('reactionCount').get(function() {

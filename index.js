@@ -4,30 +4,23 @@ const apiRoutes = require('./routes/api');
 
 const app = express();
 
-// Middleware for JSON parsing
-app.use(express.json());
-
-// Debugging middleware
+// Debugging middleware to print incoming request data
 app.use((req, res, next) => {
-  console.log('Incoming Request Data:', req.body);
+  if (req.method !== 'GET') {
+    console.log(`Incoming ${req.method} request. Body:`, req.body);
+  }
   next();
 });
 
-// Error handling middleware
-app.use((err, req, res, next) => {
-  if (err) {
-    console.error(err);
-    res.status(400).send({ error: 'Invalid JSON format' });
-  } else {
-    next();
-  }
-});
+// Middleware for JSON parsing
+app.use(express.json());
 
 // Connect to MongoDB
 mongoose.connect('mongodb://localhost:27017/socialNetwork', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-});
+})
+.catch(err => console.log("MongoDB connection error: ", err));
 
 const db = mongoose.connection;
 db.once('open', () => {
