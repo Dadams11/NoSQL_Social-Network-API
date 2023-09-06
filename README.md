@@ -16,6 +16,8 @@ NoSQL - MongoDB
 Mongoose
 Express
 
+Tested links via Insomnia
+
 Links to watch example : https://www.loom.com/share/2613799cea3b4ace8e7d404fd05e1b37?sid=b5a75dca-c418-4aa7-9db7-d2247cf06285
 
 https://www.loom.com/share/0ed07556ba0f455aafa4734edf297766?sid=686ef753-342f-4df6-8a65-1b68fc24dddd
